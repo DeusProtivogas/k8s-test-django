@@ -83,3 +83,15 @@ kubectl create secret generic django-secrets \
   --from-literal=SECRET_KEY="your-secret-key-here" \
   --from-literal=DATABASE_URL="адрес_базы_данных"
 ```
+
+### Очистка сессий в Django с помощью CronJob
+
+Для автоматической очистки устаревших сессий настроен CronJob.
+
+#### Запуск по расписанию
+CronJob запускается каждое воскресенье в полночь.
+
+#### Ручное тестирование
+Для проверки вы можете вручную создать Job:
+```bash
+kubectl create job --from=cronjob/django-clearsessions job_name
