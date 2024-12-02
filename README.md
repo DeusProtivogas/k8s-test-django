@@ -27,6 +27,14 @@ $ docker compose run --rm web ./manage.py migrate  # создаём/обновл
 $ docker compose run --rm web ./manage.py createsuperuser  # создаём в БД учётку суперпользователя
 ```
 
+Для настройки приложения создайте Kubernetes Secret с конфиденциальной информацией:
+
+```bash
+kubectl create secret generic django-secrets \
+  --from-literal=SECRET_KEY="your-secret-key-here" \
+  --from-literal=DATABASE_URL="адрес_базы_данных"
+
+
 Готово. Сайт будет доступен по адресу [http://127.0.0.1:8080](http://127.0.0.1:8080). Вход в админку находится по адресу [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
 
 ## Как вести разработку
