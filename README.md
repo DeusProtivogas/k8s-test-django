@@ -95,3 +95,12 @@ CronJob запускается каждое воскресенье в полно
 Для проверки вы можете вручную создать Job:
 ```bash
 kubectl create job --from=cronjob/django-clearsessions job_name
+```
+
+### Django Migrate Job
+
+Для выполнения миграций Django после обновления приложения используйте:
+
+```bash
+kubectl apply -f migrate-job.yaml
+```
