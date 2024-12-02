@@ -27,14 +27,6 @@ $ docker compose run --rm web ./manage.py migrate  # создаём/обновл
 $ docker compose run --rm web ./manage.py createsuperuser  # создаём в БД учётку суперпользователя
 ```
 
-Для настройки приложения создайте Kubernetes Secret с конфиденциальной информацией:
-
-```bash
-kubectl create secret generic django-secrets \
-  --from-literal=SECRET_KEY="your-secret-key-here" \
-  --from-literal=DATABASE_URL="адрес_базы_данных"
-
-
 Готово. Сайт будет доступен по адресу [http://127.0.0.1:8080](http://127.0.0.1:8080). Вход в админку находится по адресу [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
 
 ## Как вести разработку
@@ -83,3 +75,11 @@ $ docker compose build web
 `ALLOWED_HOSTS` -- настройка Django со списком разрешённых адресов. Если запрос прилетит на другой адрес, то сайт ответит ошибкой 400. Можно перечислить несколько адресов через запятую, например `127.0.0.1,192.168.0.1,site.test`. [Документация Django](https://docs.djangoproject.com/en/3.2/ref/settings/#allowed-hosts).
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
+
+Для настройки приложения создайте Kubernetes Secret с конфиденциальной информацией:
+
+```bash
+kubectl create secret generic django-secrets \
+  --from-literal=SECRET_KEY="your-secret-key-here" \
+  --from-literal=DATABASE_URL="адрес_базы_данных"
+```
