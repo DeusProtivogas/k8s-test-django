@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: django-clearsessions
+spec:
+  schedule: "0 0 * * 0"  # Запуск каждое воскресенье в полночь
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: django-clearsessions
+              image: django_app_2
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: django-secrets
+                      key: SECRET_KEY
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: django-secrets
+                      key: DATABASE_URL
+              command:
+                - "python"
+                - "manage.py"
+                - "clearsessions"
+          restartPolicy: OnFailure

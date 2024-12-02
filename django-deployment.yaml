@@ -16,13 +16,15 @@ spec:
     spec:
       containers:
         - name: django-container
-          image: django_app_1
+          image: django_app_2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
           env:
             - name: DEBUG
               value: "True"
+            - name: ALLOWED_HOSTS
+              value: "star-burger.test,localhost"
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
@@ -33,4 +35,5 @@ spec:
                 secretKeyRef:
                   name: django-secrets
                   key: DATABASE_URL
+        
 
