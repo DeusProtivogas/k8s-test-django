@@ -29,6 +29,43 @@ $ docker compose run --rm web ./manage.py createsuperuser  # создаём в �
 
 Готово. Сайт будет доступен по адресу [http://127.0.0.1:8080](http://127.0.0.1:8080). Вход в админку находится по адресу [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
 
+## Как задеплоить код
+Возможно запустить код в кластере с помощью подов и манифестов, например для запуска под nginx можно создать манифесты
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: edu-prickly-almeida
+  labels:
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.14.2
+      ports:
+        - containerPort: 80
+
+```
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: edu-prickly-almeida
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80        # Внешний порт, по которому будет доступен сервис
+      targetPort: 80  # Порт, на который перенаправляется трафик внутри пода
+      nodePort: 32576 # NodePort должен совпадать с настроенным в ALB
+  type: NodePort
+
+```
+
 ## Как вести разработку
 
 Все файлы с кодом django смонтированы внутрь докер-контейнера, чтобы Nginx Unit сразу видел изменения в коде и не требовал постоянно пересборки докер-образа -- достаточно перезапустить сервисы Docker Compose.
@@ -104,3 +141,4 @@ kubectl create job --from=cronjob/django-clearsessions job_name
 ```bash
 kubectl apply -f migrate-job.yaml
 ```
+
