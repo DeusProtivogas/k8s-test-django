@@ -36,7 +36,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx
-  namespace: edu-prickly-almeida
+  namespace: <namespace>
   labels:
     app: nginx
 spec:
@@ -53,7 +53,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
-  namespace: edu-prickly-almeida
+  namespace: <namespace>
 spec:
   selector:
     app: nginx
@@ -65,6 +65,21 @@ spec:
   type: NodePort
 
 ```
+
+## Деплой на prod
+
+Деплой на prod можно делать через манифесты
+
+Для этого необходимо создать docker image сайта, и загрузить его на docker hub.
+
+После этого, используя манифесты похожие на пример выше, можно запустить сайт.
+
+Необходимые секреты:
+
+`postgres`: переменная `DATABASE_URL`
+
+Также для проброса портов нужен сервис с указанием имени приложения.
+
 
 ## SSL сертификат
 
